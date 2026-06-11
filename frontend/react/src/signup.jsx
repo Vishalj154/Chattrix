@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './index.css'
 
 const Signup = () => {
   const [username, setUsername] = useState('')
@@ -30,7 +31,7 @@ const Signup = () => {
         Confirm Password:
         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
       </label>
-      <button type="button">Submit</button>
+      <button classNmaetype="button">Submit</button>
       <div>
         <button type="button">Continue with Google</button>
       </div>
