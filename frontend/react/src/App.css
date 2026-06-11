@@ -42,4 +42,9 @@ button {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  transform: translateY(-1px);
+}
+button:hover {
+    box-shadow: 0 4px 12px rgba(60, 64, 67, 0.2);
+    transform: translateY(-2px);
 }
