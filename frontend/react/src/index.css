@@ -1,6 +1,9 @@
 body{
     display: flex;
+    justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    margin: 0;
     color:black;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -8,13 +11,53 @@ body{
     border:3px solid whitesmoke;
     background-color: azure;
     display:flex;
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
-    margin:10px;
-    padding:10px;
-    gap:2px;
+    margin: 0;
+    padding:20px;
+    gap:10px;
+    width: min(460px, 90vw);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.signup-form > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 label{
     margin: 5px;
     padding: 2px;
+}
+.submit{
+    background-color: #1976d2;
+    color: white;
+    border: 1px solid #1967b2;
+    border-radius: 999px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.submit:hover {
+    background-color: #165ea7;
+    transform: translateY(-1px);
+}
+.google{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: white;
+    color: #202124;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 20px;
+    border: 1px solid #dfe1e5;
+    border-radius: 999px;
+    box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.google:hover {
+    box-shadow: 0 4px 12px rgba(60, 64, 67, 0.2);
+    transform: translateY(-1px);
 }

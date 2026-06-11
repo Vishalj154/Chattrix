@@ -31,9 +31,9 @@ const Signup = () => {
         Confirm Password:
         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
       </label>
-      <button classNmaetype="button">Submit</button>
+      <button className='submit' type="button">Submit</button>
       <div>
-        <button type="button">Continue with Google</button>
+        <button className='google'  type="button">🌐 Continue with Google</button>
       </div>
     </div>
   )
