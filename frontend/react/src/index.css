@@ -35,6 +35,33 @@ label {
     padding: 2px;
 }
 
+.password-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.password-field input {
+    flex: 1;
+}
+
+.toggle-password {
+    background: transparent;
+    border: 1px solid #dfe1e5;
+    color: #202124;
+    padding: 8px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+}
+
+.toggle-password:hover {
+    box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+    transform: none;
+}
+
 .submit {
     background-color: #1976d2;
     color: white;

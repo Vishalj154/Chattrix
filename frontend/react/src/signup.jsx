@@ -9,6 +9,8 @@ const Signup = () => {
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -75,11 +77,41 @@ const Signup = () => {
             </label>
             <label>
                 Password:
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <div className="password-field">
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        type="button"
+                        className="toggle-password"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                        {showPassword ? '🙈' : '👁️'}
+                    </button>
+                </div>
             </label>
             <label>
                 Confirm Password:
-                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                <div className="password-field">
+                    <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        type="button"
+                        className="toggle-password"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                    >
+                        {showConfirmPassword ? '🙈' : '👁️'}
+                    </button>
+                </div>
             </label>
             <button className="submit" onClick={handleSubmit} type="button">Submit</button>
             <div>
