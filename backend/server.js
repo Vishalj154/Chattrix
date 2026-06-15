@@ -12,12 +12,35 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/users/register", (req, res) => {
-    console.log(req.body);
 
-    res.json({
-        success: true,
-        message: "Data received"
-    });
+    const { uid, username, email, phone } = req.body;
+
+    const sql = `
+        INSERT INTO users
+        (firebase_uid, username, email, phone)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [uid, username, email, phone],
+        (err, result) => {
+
+            if (err) {
+                console.log(err);
+
+                return res.status(500).json({
+                    success: false,
+                    message: err.message
+                });
+            }
+
+            res.status(201).json({
+                success: true,
+                message: "User saved to database"
+            });
+        }
+    );
 });
 
 const db = mysql.createConnection({
