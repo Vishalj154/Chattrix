@@ -29,9 +29,25 @@ const Login = () => {
         <label >
             Email: <input type="email" value={Email} onChange={(e)=> setEmail(e.target.value)  } required/>
         </label>
-        <label >
-            Password: <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)  } required/>
-        </label>
+        <label>
+                Password:
+                <div className="password-field">
+                    <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <button
+                        type="button"
+                        className="toggle-password"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                        {showPassword ? '🙈' : '👁️'}
+                    </button>
+                </div>
+            </label>
             <button className="submit" onClick={handleSubmit} type="button">Submit</button>
     </div>
     
