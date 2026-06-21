@@ -3,6 +3,7 @@ import welcomeImage from './assets/lema_welcome.png'
 import './App.css'
 import Signup from './signup'
 import Login from './login'
+import profile from '../components/Profile'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -31,6 +32,8 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/profile" element={<Profile />} />
+
     </Routes>
   )
 }

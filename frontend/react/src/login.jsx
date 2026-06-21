@@ -3,11 +3,13 @@ import { useState } from 'react'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import './index.css'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [Email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const navigate= useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,6 +20,7 @@ const Login = () => {
                 password
             );
             console.log(userinfo.user);
+            navigate("/profile");
             alert("Login successful");
         } catch (errr) {
             alert(errr.message);
