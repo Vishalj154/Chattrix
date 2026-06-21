@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './index.css'
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from "./firebase";
 import axios from "axios";
 
 const Signup = () => {
@@ -60,6 +61,8 @@ const Signup = () => {
             alert(err.message);
         }
     };
+    // handlegooglelogin
+    const 
     return (
 
         <div className="signup-form">
