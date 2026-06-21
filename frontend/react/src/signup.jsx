@@ -65,7 +65,7 @@ const Signup = () => {
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
-            const user = result.user();
+            const user = result.user;
 
             await axios.post(
                 "http://localhost:5000/api/users/register",
