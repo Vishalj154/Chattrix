@@ -68,13 +68,13 @@ const db = mysql.createConnection({
     database: process.env.DB_NAME
 });
 //profileHeader
-app.get('/user/uid', (req, res) => {
+app.get('/api/users/:uid', (req, res) => {
     const uid = req.params.uid;
     db.query(
-        "SELECT * FROM USERS WHERE uid=?",
+        'SELECT * FROM users WHERE firebase_uid = ?',
         [uid],
         (err, result) => {
-            if (err) return err.status(500).json(err);
+            if (err) return res.status(500).json(err);
             res.json(result[0]);
 
         }
@@ -83,12 +83,12 @@ app.get('/user/uid', (req, res) => {
 
 //addphone
 app.put('/api/users/update-phone', (req, res) => {
-    const [uid, phone] = res.body;
-    db.query = (
-        "UPDATE users SET phone=? WHERE uid=?",
+    const { uid, phone } = req.body;
+    db.query(
+        'UPDATE users SET phone = ? WHERE firebase_uid = ?',
         [phone, uid],
         (err, result) => {
-            if (err) return err.status(500).json(err);
+            if (err) return res.status(500).json(err);
 
             res.json({
                 message: "Phone updated successfully"
