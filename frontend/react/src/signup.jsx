@@ -6,32 +6,38 @@ import { auth, provider } from "./firebase";
 import axios from "axios";
 
 const Signup = () => {
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!email.includes('@')) {
+        setLoading(true);
+        if (!email.includes("@")) {
             alert("Enter a valid email");
+            setLoading(false);
             return;
         }
         if (phone.length < 10) {
             alert("phone length must be 10 characters");
+            setLoading(false);
             return;
         }
 
         if (password.length <= 5) {
             alert("password length should be at least 6 characters");
+            setLoading(false);
             return;
         }
 
         if (password !== confirmPassword) {
             alert("confirm password should be same as password");
+            setLoading(false);
             return;
         }
         try {
@@ -60,9 +66,13 @@ const Signup = () => {
         catch (err) {
             alert(err.message);
         }
+        finally {
+            setLoading(false);
+        }
     };
     // handlegooglelogin
     const handleGoogleLogin = async () => {
+        setLoading(true);
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
@@ -82,70 +92,110 @@ const Signup = () => {
             alert(err.message);
 
         }
+        finally {
+            setLoading(false);
+        }
     };
     return (
 
-        <div className="signup-form">
-            <a href="\">back to home </a>
-
+        <div className="auth-card">
+            <a href="\" className="back-to-home">back to home </a>
             <h2>Sign Up here</h2>
-            <label>
-                Username:
-                <input value={username} onChange={(e) => setUsername(e.target.value)} required />
-            </label>
-            <label>
-                Email:
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </label>
-            <label>
-                Phone:
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            </label>
-            <label>
-                Password:
-                <div className="password-field">
+            <form onSubmit={handleSubmit} className="auth-form">
+                <div className="form-group">
+                    <label htmlFor="username">Username:</label>
                     <input
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        id="username"
+                        className="input-field"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required
+                        placeholder="Enter your username"
                     />
-                    <button
-                        type="button"
-                        className="toggle-password"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        aria-label={showPassword ? 'Hide password' : 'Show password'}
-                    >
-                        {showPassword ? '🙈' : '👁️'}
-                    </button>
                 </div>
-            </label>
-            <label>
-                Confirm Password:
-                <div className="password-field">
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
                     <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="email"
+                        id="email"
+                        className="input-field"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
+                        placeholder="Enter your email"
                     />
-                    <button
-                        type="button"
-                        className="toggle-password"
-                        onClick={() => setShowConfirmPassword((prev) => !prev)}
-                        aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
-                    >
-                        {showConfirmPassword ? '🙈' : '👁️'}
-                    </button>
                 </div>
-            </label>
-            <button className="submit" onClick={handleSubmit} type="button">Submit</button>
-            <div>
-                <button className='google'
-                    type="button"
-                    onClick={handleGoogleLogin}>🌐 Continue with Google</button>
-            </div>
+                <div className="form-group phone-input">
+                    <label htmlFor="phone">Phone:</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        className="input-field"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                        placeholder="Enter your phone number"
+                    />
+                </div>
+                <div className="form-group password-group">
+                    <label htmlFor="password">Password:</label>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            className="input-field"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Enter your password"
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password-button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        >
+                            {showPassword ? '🙈' : '👁️'}
+                        </button>
+                    </div>
+                </div>
+                <div className="form-group password-group">
+                    <label htmlFor="confirmPassword">Confirm Password:</label>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            id="confirmPassword"
+                            className="input-field"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            placeholder="Confirm your password"
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password-button"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                        >
+                            {showConfirmPassword ? '🙈' : '👁️'}
+                        </button>
+                    </div>
+                </div>
+                <button className={`btn-primary ${loading ? 'loading' : ''}`} onClick={handleSubmit} type="button" disabled={loading}>
+                    {loading ? <div className="spinner"></div> : "Sign Up"}
+                </button>
 
+                <div className="divider">
+                    <span>or</span>
+                </div>
+
+                <button className={`btn-google ${loading ? 'loading' : ''}`}
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}>
+                    <img src="https://www.google.com/favicon.ico" alt="Google icon" /> Continue with Google
+                </button>
+            </form>
         </div>
     )
 }

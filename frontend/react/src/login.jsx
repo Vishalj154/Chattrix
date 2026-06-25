@@ -12,9 +12,11 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             const userinfo = await signInWithEmailAndPassword(
                 auth,
@@ -27,9 +29,13 @@ const Login = () => {
         } catch (errr) {
             alert(errr.message);
         }
+        finally {
+            setLoading(false);
+        }
     };
     // handlegooglelogin
     const handleGoogleLogin = async () => {
+        setLoading(true);
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
@@ -51,41 +57,63 @@ const Login = () => {
             alert(err.message);
 
         }
+        finally {
+            setLoading(false);
+        }
     };
     return (
-        <div className='signup-form'>
-            <a href="\">back to home </a>
+        <div className='auth-card'>
+            <a href="\" className="back-to-home">back to home </a>
             <h1>Login here</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email: <input type="email" value={Email} onChange={(e) => setEmail(e.target.value)} required />
-                </label>
-                <label>
-                    Password:
-                    <div className="password-field">
+            <form onSubmit={handleSubmit} className="auth-form">
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        className="input-field"
+                        value={Email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        placeholder="Enter your email"
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <div className="password-input-wrapper">
                         <input
                             type={showPassword ? 'text' : 'password'}
+                            id="password"
+                            className="input-field"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            placeholder="Enter your password"
                         />
                         <button
                             type="button"
-                            className="toggle-password"
+                            className="toggle-password-button"
                             onClick={() => setShowPassword((prev) => !prev)}
                             aria-label={showPassword ? 'Hide password' : 'Show password'}
                         >
                             {showPassword ? '🙈' : '👁️'}
                         </button>
                     </div>
-                </label>
-                <button className="submit" type="submit">Submit</button>
-                <div>
-                    <button className='google'
-                        type="button"
-                        onClick={handleGoogleLogin}>🌐 Continue with Google</button>
+                </div>
+                <button className={`btn-primary ${loading ? 'loading' : ''}`} type="submit" disabled={loading}>
+                    {loading ? <div className="spinner"></div> : "Submit"}
+                </button>
+
+                <div className="divider">
+                    <span>or</span>
                 </div>
 
+                <button className={`btn-google ${loading ? 'loading' : ''}`}
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}>
+                    <img src="https://www.google.com/favicon.ico" alt="Google icon" /> Continue with Google
+                </button>
             </form>
         </div>
     )
