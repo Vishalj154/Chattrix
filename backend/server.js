@@ -1,3 +1,13 @@
+/**
+ * @deprecated
+ * Chattrix Node/Express + MySQL Backend
+ * 
+ * NOTICE: This backend is DEPRECATED.
+ * All user profile operations (registration, profile fetching, profile updates)
+ * have been migrated directly to Firestore (Firebase-first architecture).
+ * This server is kept solely for architectural reference or potential future server-side functions.
+ */
+
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
