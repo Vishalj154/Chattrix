@@ -7,7 +7,7 @@ import {
   signOut, 
   sendPasswordResetEmail 
 } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, provider, db } from "../firebase";
 
 // 1. Create the Authentication Context
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
         lastSeen: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
-      await updateDoc(docRef, updatedPresence);
+      await setDoc(docRef, updatedPresence, { merge: true });
       setProfile({ ...docSnap.data(), ...updatedPresence });
     } else {
       setProfile(null);
@@ -115,10 +115,10 @@ export const AuthProvider = ({ children }) => {
     if (user) {
       try {
         const docRef = doc(db, "users", user.uid);
-        await updateDoc(docRef, {
+        await setDoc(docRef, {
           isOnline: false,
           lastSeen: new Date().toISOString()
-        });
+        }, { merge: true });
       } catch (err) {
         console.error("AuthContext: Failed to update status on logout:", err);
       }
@@ -133,11 +133,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Update profile data in Firestore and reflect changes in local cache state
+  // Uses setDoc with merge to handle both new profiles (no existing document) and existing profiles
   const updateProfileData = async (data) => {
     if (!user) throw new Error("No authenticated user.");
     const docRef = doc(db, "users", user.uid);
-    await updateDoc(docRef, data);
-    setProfile((prev) => (prev ? { ...prev, ...data } : data));
+    
+    // Include base fields if creating for the first time
+    const profileData = {
+      ...data,
+      uid: user.uid,
+      email: user.email,
+    };
+    
+    // setDoc with merge: true creates the doc if it doesn't exist, or merges into it if it does
+    await setDoc(docRef, profileData, { merge: true });
+    setProfile((prev) => (prev ? { ...prev, ...profileData } : profileData));
   };
 
   useEffect(() => {

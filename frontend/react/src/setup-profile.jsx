@@ -5,7 +5,7 @@ import { useToast } from "./context/ToastContext";
 import "./index.css";
 
 const SetupProfile = () => {
-  const { user, profile, updateProfileData } = useAuth();
+  const { user, profile, updateProfileData, logout } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -40,12 +40,17 @@ const SetupProfile = () => {
     try {
       const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName.trim())}&background=random`;
       
-      // Update profile info in Firestore (which updates cache in AuthContext)
+      // Update/create profile info in Firestore (which updates cache in AuthContext)
+      // Includes all fields needed for a complete profile document
       await updateProfileData({
         displayName: displayName.trim(),
         phone: phoneDigits,
         photoURL: user.photoURL || defaultAvatar,
-        updatedAt: new Date().toISOString()
+        createdAt: profile?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isOnline: true,
+        lastSeen: new Date().toISOString(),
+        provider: user.providerData?.[0]?.providerId || "password"
       });
 
       showToast("Profile set up successfully!", "success");
@@ -102,6 +107,29 @@ const SetupProfile = () => {
           {loading ? <div className="spinner"></div> : "Complete Setup"}
         </button>
       </form>
+
+      <div style={{ textAlign: "center", marginTop: "12px", fontSize: "0.9em", color: "#6b7280" }}>
+        Logged in as <strong>{user?.email}</strong>
+        <br />
+        <button
+          type="button"
+          onClick={async () => {
+            await logout();
+            navigate("/");
+          }}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#ef4444",
+            cursor: "pointer",
+            fontWeight: "600",
+            marginTop: "6px",
+            fontSize: "0.95em"
+          }}
+        >
+          Log out & go back
+        </button>
+      </div>
     </div>
   );
 };
