@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import { useToast } from './context/ToastContext'
+import { Eye, Eyeoff } from 'lucide-react'
 import './index.css'
 
 const Signup = () => {
@@ -55,7 +56,7 @@ const Signup = () => {
             // Register in Firebase Auth and Firestore users/{uid} via useAuth
             await signup(email, password, username, phoneDigits)
             showToast("Account registered successfully!", "success")
-            
+
             // Redirect to dashboard since profile fields are already populated
             navigate("/app/chats")
         } catch (err) {
@@ -80,7 +81,7 @@ const Signup = () => {
             // Logs in via Google and creates/merges Firestore profile
             const result = await loginWithGoogle()
             showToast("Google signup successful!", "success")
-            
+
             // Redirect appropriately based on profile existence
             if (result.hasProfile) {
                 navigate("/app/chats")
@@ -100,7 +101,7 @@ const Signup = () => {
             <Link to="/" className="back-to-home">back to home</Link>
             <h2>Sign Up here</h2>
             <form onSubmit={handleSubmit} className="auth-form">
-                
+
                 {/* Username Row */}
                 <div className="form-group">
                     <label htmlFor="username">Username:</label>
@@ -166,7 +167,7 @@ const Signup = () => {
                             aria-label={showPassword ? 'Hide password' : 'Show password'}
                             disabled={loading}
                         >
-                            {showPassword ? '🙈' : '👁️'}
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
                 </div>
@@ -197,9 +198,9 @@ const Signup = () => {
                     </div>
                 </div>
 
-                <button 
-                    className={`btn-primary ${loading ? 'loading' : ''}`} 
-                    type="submit" 
+                <button
+                    className={`btn-primary ${loading ? 'loading' : ''}`}
+                    type="submit"
                     disabled={loading}
                 >
                     {loading ? <div className="spinner"></div> : "Sign Up"}
@@ -216,7 +217,7 @@ const Signup = () => {
                     <img src="https://www.google.com/favicon.ico" alt="Google icon" /> Continue with Google
                 </button>
             </form>
-            
+
             <div style={{ textAlign: 'center', marginTop: '4px', fontSize: '0.95em', color: '#6b7280' }}>
                 Already have an account?{' '}
                 <Link to="/login" style={{ color: '#4dc0b5', textDecoration: 'none', fontWeight: '600' }}>

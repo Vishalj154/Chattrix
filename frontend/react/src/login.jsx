@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import { useToast } from './context/ToastContext'
+import { Eye, EyeOff } from 'lucide-react';
 import './index.css'
 
 const Login = () => {
@@ -9,7 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
-    
+
     const { login, loginWithGoogle } = useAuth()
     const { showToast } = useToast()
     const navigate = useNavigate()
@@ -17,12 +18,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
-        
+
         try {
             // Logs in and returns whether the Firestore profile exists
             const result = await login(email, password)
             showToast("Login successful!", "success")
-            
+
             // Post-login workflow redirection
             if (result.hasProfile) {
                 navigate("/app/chats")
@@ -51,7 +52,7 @@ const Login = () => {
             // Logs in via Google and creates/merges Firestore profile
             const result = await loginWithGoogle()
             showToast("Google login successful!", "success")
-            
+
             // Post-login workflow redirection
             if (result.hasProfile) {
                 navigate("/app/chats")
@@ -71,7 +72,7 @@ const Login = () => {
             <Link to="/" className="back-to-home">back to home</Link>
             <h1>Login here</h1>
             <form onSubmit={handleSubmit} className="auth-form">
-                
+
                 {/* Email Row */}
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
@@ -108,7 +109,7 @@ const Login = () => {
                             aria-label={showPassword ? 'Hide password' : 'Show password'}
                             disabled={loading}
                         >
-                            {showPassword ? '🙈' : '👁️'}
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
                 </div>
@@ -138,7 +139,7 @@ const Login = () => {
                     <img src="https://www.google.com/favicon.ico" alt="Google icon" /> Continue with Google
                 </button>
             </form>
-            
+
             <div style={{ textAlign: 'center', marginTop: '4px', fontSize: '0.95em', color: '#6b7280' }}>
                 Don't have an account?{' '}
                 <Link to="/signup" style={{ color: '#4dc0b5', textDecoration: 'none', fontWeight: '600' }}>
